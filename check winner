@@ -1,0 +1,87 @@
+''' Converts one specificed column of a 2d list in to a list '''
+''' Returns the converted list '''
+def convertColumn(arr, column):
+    converted = []
+    for i in range(0, len(arr)):
+        converted.append(arr[i][column])
+        
+    return converted    
+        
+''' Checks if every element in a list matches the "check" parameter '''
+''' Returns true if all elements match "check", false otherwise'''
+def checkUniform(arr, check):
+    for i in range(0,3):
+        if check != arr[i]:
+            return False
+            
+    return True
+    
+''' Checks each row of a 2d list to see if all elements match '''
+''' Returns number of player if match found '''
+''' Returns 0 if no match found '''
+def checkRows(arr):
+    for i in range(0,len(arr)):
+        if checkUniform(arr[i], 1) == True:
+            return 1
+        if checkUniform(arr[i], 2) == True:
+            return 2
+       
+    return 0
+        
+''' Checks each column of a 2d list to see if all elements match '''
+''' Returns number of player if match found '''
+''' Returns 0 if no match found '''        
+def checkColumns(arr):
+    for i in range(0,len(arr)):
+        check = convertColumn(arr, i)
+        if checkUniform(check, 1) == True:
+            return 1
+        if checkUniform(check, 2) == True:
+            return 2
+            
+    return 0
+            
+''' Checks if diagonal lines of 3x3 list are 3 in a row '''
+''' Returns number of player if match found '''
+''' Returns 0 if no match found '''
+def checkDiag(arr):
+    if arr[0][0] != 0:
+        if arr[0][0] == arr[1][1]:
+            if arr[1][1] == arr[2][2]:
+                return arr[0][0]
+    if arr[0][2] != 0:
+        if arr[0][2] == arr[1][1]:
+            if arr[1][1] == arr[2][0]:
+                return arr[0][2]
+                
+    return 0
+    
+''' Checks if there is any combination of 3 in a row on a tic tac toe board '''
+''' Returns number of player if they won, returns 0 otherwise '''
+def checkWinner(arr):
+    checkR = checkRows(arr)
+    checkC = checkColumns(arr)
+    checkD = checkDiag(arr)
+    
+    if checkR != 0:
+        return checkR
+    elif checkC != 0:
+        return checkC
+    elif checkD != 0:
+        return checkD
+    else:
+        return 0
+   
+''' Define game board matrix ''' 
+board = [[1,1,2],
+         [2,2,1],
+         [2,2,1]]
+         
+''' checkWinner() returns the number of the player if there is a winner '''
+winner = checkWinner(board)
+
+''' Conditional statement to display the number of the player if they won '''
+if winner != 0:
+    print("Player " + str(winner) + " is the winner")
+else:
+    print("There is no winner")
